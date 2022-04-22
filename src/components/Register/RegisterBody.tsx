@@ -35,8 +35,8 @@ export default function RegisterBody() {
             </Text>
 
             <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-                <TextInput label="Name" placeholder="you@email.com" required />
-                <TextInput label="Email" placeholder="you@email.com" required mt="md" />
+                <TextInput label="Name" placeholder="Jane Doe" required />
+                <TextInput label="Email" placeholder="jane.doe@email.com" required mt="md" />
                 <PasswordInput label="Password" placeholder="Your password" required mt="md" />
                 <Button color="teal" fullWidth mt="xl">
                     Sign up

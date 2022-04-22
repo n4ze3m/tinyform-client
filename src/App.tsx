@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import HomeBody from './components/Home/HomeBody'
 import LoginBody from './components/Login/LoginBody'
 import RegisterBody from './components/Register/RegisterBody'
@@ -18,7 +18,7 @@ function App() {
         colorScheme: 'dark',
       }}
     >
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<HomeBody />} />
           <Route path="login" element={<LoginBody />} />
@@ -26,7 +26,7 @@ function App() {
           <Route path="dashboard" element={<DasboardBody />} />
           <Route path="form/:id" element={<DetailsBody />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </MantineProvider>
   )
 }

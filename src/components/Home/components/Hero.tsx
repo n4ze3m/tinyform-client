@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStyles, Container, Text, Button, Group, useMantineTheme } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 const BREAKPOINT = '@media (max-width: 755px)';
 
@@ -80,7 +81,7 @@ const useStyles = createStyles((theme) => ({
 export function HeroTitle() {
     const { classes, cx } = useStyles();
     const theme = useMantineTheme();
-
+    let navigator = useNavigate()
     return (
         <div className={classes.wrapper}>
             <Container className={classes.inner}>
@@ -102,6 +103,7 @@ export function HeroTitle() {
                         className={classes.control}
                         variant="gradient"
                         gradient={{ from: 'green', to: 'teal' }}
+                        onClick={() => navigator('/login')}
                     >
                         Get started
                     </Button>
@@ -121,3 +123,4 @@ export function HeroTitle() {
         </div>
     );
 }
+
