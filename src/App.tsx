@@ -1,44 +1,33 @@
 import { useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import HomeBody from './components/Home/HomeBody'
+import LoginBody from './components/Login/LoginBody'
+import RegisterBody from './components/Register/RegisterBody'
+import DasboardBody from './components/Dashboard/DasboardBody'
+import DetailsBody from './components/Details/DetailsBody'
+import { MantineProvider } from '@mantine/core'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <MantineProvider withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        colorScheme: 'dark',
+      }}
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomeBody />} />
+          <Route path="login" element={<LoginBody />} />
+          <Route path="register" element={<RegisterBody />} />
+          <Route path="dashboard" element={<DasboardBody />} />
+          <Route path="form/:id" element={<DetailsBody />} />
+        </Routes>
+      </BrowserRouter>
+    </MantineProvider>
   )
 }
 
