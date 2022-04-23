@@ -1,5 +1,4 @@
-import { Container, Divider, Group, Paper, Text, TextInput, Title, Select, ActionIcon, Button } from "@mantine/core";
-import Layout from "../Common/Layout";
+import { Container, Divider, Group, Paper, TextInput, Title, Select, ActionIcon, Button } from "@mantine/core";
 import { X } from 'tabler-icons-react';
 import { useForm, formList } from "@mantine/form";
 export default function CreateBody() {
@@ -94,7 +93,7 @@ export default function CreateBody() {
         </Group>
     ))
     return (
-        <Layout>
+        <>
             <Paper shadow="xs" p="md">
                 <Title
                     align="center"
@@ -138,6 +137,6 @@ export default function CreateBody() {
                     </form>
                 </Container>
             </Paper>
-        </Layout>
+        </>
     )
 }

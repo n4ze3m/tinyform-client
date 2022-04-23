@@ -1,4 +1,7 @@
 import { Card, Text, Group, Badge, createStyles } from "@mantine/core";
+import { Form } from "../../../interface/home.interface";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
     card: {
@@ -21,23 +24,26 @@ const useStyles = createStyles((theme) => ({
     }
 }))
 
-export default function DashCard() {
+export default function DashCard(form: Form) {
     const { classes } = useStyles();
+    const navigate = useNavigate()
 
     return (
-        <Card shadow="sm" p="lg" className={classes.card}>
+        <Card shadow="sm" p="lg" className={classes.card}
+            onClick={() => navigate(`/dashboard/form/details/${form.slug}`)}
+        >
             <Text weight={500}>
-                Lorem ipsum dolor sit amet
+                {form.name}
             </Text>
             <Group position="apart" style={{
                 marginTop: '1rem'
             }}>
-                <Text>
-                    12/12/2020
+                <Text size="sm">
+                    {moment(form.created_at).fromNow()}
                 </Text>
-                <Badge>
+                {/* <Badge>
                     Active
-                </Badge>
+                </Badge> */}
             </Group>
         </Card>
     )

@@ -1,13 +1,14 @@
 import { Button, createStyles, Group, SimpleGrid } from "@mantine/core";
-import React from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "tabler-icons-react";
-import Layout from "../Common/Layout";
+import { Form, HomeForm } from "../../interface/home.interface";
+import { getUserForms } from "../../services/get";
 import DashCard from "./components/DashCard";
+import DashLoading from "./components/DashLoading";
 
 const useStyles = createStyles((theme) => ({
   createButton: {
-
     display: 'flex',
     justifyContent: 'space-between',
   }
@@ -16,13 +17,27 @@ const useStyles = createStyles((theme) => ({
 export default function DasboardBody() {
   const { classes } = useStyles()
   let navigator = useNavigate()
-  return (<Layout>
+  const [data, setData] = useState<HomeForm>()
+  const [loading, setLoading] = useState(true)
+
+
+  const fetchData = async () => {
+    const response = await getUserForms()
+    const homeResponse: HomeForm = response.data
+    setData(homeResponse)
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+  return (<>
     <Group
       position="right"
     >
 
-      <Button className={classes.createButton} color="teal" 
-      onClick={() => navigator("/dashboard/form/create")}
+      <Button className={classes.createButton} color="teal"
+        onClick={() => navigator("/dashboard/form/create")}
       >
         <Plus /> New form
       </Button>
@@ -37,12 +52,14 @@ export default function DasboardBody() {
       ]}
     >
 
-      <DashCard />
-      <DashCard />
-      <DashCard />
-      <DashCard />
-      <DashCard />
-
+      {
+        loading && !data && <DashLoading />
+      }
+      {
+        !loading && data && data.forms.map((form: Form) => {
+          return <DashCard key={form._id} {...form} />
+        })
+      }
     </SimpleGrid>
-  </Layout>);
+  </>)
 }

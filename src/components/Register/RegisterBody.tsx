@@ -1,21 +1,17 @@
-import React from "react";
-import Layout from "../Common/Layout";
 import {
     TextInput,
     PasswordInput,
-    Checkbox,
     Anchor,
     Paper,
     Title,
     Text,
     Container,
-    Group,
     Button,
 } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 export default function RegisterBody() {
     let navigate = useNavigate()
-    return <Layout>
+    return <>
 
         <Container size={420} my={40}>
             <Title
@@ -43,5 +39,5 @@ export default function RegisterBody() {
                 </Button>
             </Paper>
         </Container>
-    </Layout>;
+    </>;
 }
