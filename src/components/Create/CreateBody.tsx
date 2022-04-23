@@ -129,6 +129,7 @@ export default function CreateBody() {
                             fullWidth
                             type="submit"
                             color="teal"
+                            disabled={form.values.fields.length === 0}
                         >
 
                             Create form
