@@ -16,7 +16,7 @@ const useStyles = createStyles((theme) => ({
         top: 60,
         left: 0,
         right: 0,
-        zIndex: 0,
+        zIndex: 1000,
         borderTopRightRadius: 0,
         borderTopLeftRadius: 0,
         borderTopWidth: 0,

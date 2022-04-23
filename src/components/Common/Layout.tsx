@@ -8,12 +8,11 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
 
-    
-    return <div>
-        <HeaderMenu/>
-        <Container>
 
-        {children}
+    return (<div>
+        <HeaderMenu />
+        <Container>
+            {children}
         </Container>
-        </div>
+    </div>)
 }

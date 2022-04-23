@@ -1,5 +1,6 @@
 import { Button, createStyles, Group, SimpleGrid } from "@mantine/core";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Plus } from "tabler-icons-react";
 import Layout from "../Common/Layout";
 import DashCard from "./components/DashCard";
@@ -14,12 +15,15 @@ const useStyles = createStyles((theme) => ({
 
 export default function DasboardBody() {
   const { classes } = useStyles()
+  let navigator = useNavigate()
   return (<Layout>
     <Group
       position="right"
     >
 
-      <Button className={classes.createButton} color="teal" >
+      <Button className={classes.createButton} color="teal" 
+      onClick={() => navigator("/dashboard/form/create")}
+      >
         <Plus /> New form
       </Button>
     </Group>

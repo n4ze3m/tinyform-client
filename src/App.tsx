@@ -8,6 +8,7 @@ import RegisterBody from './components/Register/RegisterBody'
 import DasboardBody from './components/Dashboard/DasboardBody'
 import DetailsBody from './components/Details/DetailsBody'
 import { MantineProvider } from '@mantine/core'
+import CreateBody from './components/Create/CreateBody'
 
 function App() {
 
@@ -24,7 +25,8 @@ function App() {
           <Route path="login" element={<LoginBody />} />
           <Route path="register" element={<RegisterBody />} />
           <Route path="dashboard" element={<DasboardBody />} />
-          <Route path="form/:id" element={<DetailsBody />} />
+          <Route path="dashboard/form/create" element={<CreateBody />} />
+          <Route path="dashboard/form/details/:id" element={<DetailsBody />} />
         </Routes>
       </HashRouter>
     </MantineProvider>
