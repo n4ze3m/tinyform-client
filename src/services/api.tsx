@@ -2,7 +2,7 @@ import axios from "axios"
 import { getAccessToken, getRefreshToken, removeTokens, setTokens } from "./token";
 
 const instance = axios.create({
-    baseURL: "https://tinyserver.onrender.com/",
+    baseURL: "http://localhost:8080/",
     headers: {
         "Content-Type": "application/json",
     },

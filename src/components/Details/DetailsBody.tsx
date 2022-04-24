@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Button, Collapse, Group, Pagination, Paper, ScrollArea, Table } from '@mantine/core';
-import { Code } from "tabler-icons-react";
+import { Button, Text, Collapse, Group, ActionIcon, Paper, ScrollArea } from '@mantine/core';
+import { Code, Trash } from "tabler-icons-react";
 import { Prism } from '@mantine/prism';
 import DetailsLoading from "./components/DetailsLoading";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserFormSnippet,getUsersSubmissions } from "../../services/get";
+import { getUserFormSnippet, getUsersSubmissions } from "../../services/get";
+import DetailTable from './components/DetailTable';
 
 export default function DetailsBody() {
   const [opened, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [html, setHtml] = useState('');
+  const [header, setHeader] = useState([]);
+  const [data, setData] = useState([]);
+  const [name, setName] = useState('');
   let navigator = useNavigate();
   let params = useParams();
 
@@ -20,6 +24,14 @@ export default function DetailsBody() {
       const tableResponse = await getUsersSubmissions(params.id!)
       console.log(tableResponse.data)
       setHtml(htmlResponse.data);
+      setName(tableResponse.data.name);
+      if (tableResponse.data?.header != null) {
+        setHeader(tableResponse.data.header);
+      }
+
+      if (tableResponse.data?.rows != null) {
+        setData(tableResponse.data.rows);
+      }
       setLoading(false);
 
     } catch (e) {
@@ -43,59 +55,31 @@ export default function DetailsBody() {
         !loading && (
           <>
 
-            <Group position="right">
-              <Button size="sm" color="teal" onClick={() => setOpen((o) => !o)}>
-                <Code size={"20"} /> Snippet
-              </Button>
+            <Group position="apart">
+
+              <Text size="lg"  weight={700}>
+                {` 📝 ${name}`}
+              </Text>
+              <Group>
+                <Button size="sm" leftIcon={<Code />} color="teal" onClick={() => setOpen((o) => !o)}>
+                  Snippet
+                </Button>
+                <ActionIcon color="red" size="md" >
+                <Trash />
+            </ActionIcon>
+              </Group>
             </Group>
             <Collapse in={opened}>
               <Prism my="md" mb="md" language="markdown">{html}</Prism>
             </Collapse>
             <Paper withBorder shadow="md" p={10} mt={30} radius="sm">
               <ScrollArea>
-                <Table verticalSpacing="xs">
-                  <thead>
-                    <tr>
-                      <th>Book title</th>
-                      <th>Year</th>
-                      <th>Author</th>
-                      <th>Reviews</th>
-                      <th>Reviews distribution</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>a</td>
-                      <td>b</td>
-                      <td>c</td>
-                      <td>d</td>
-                      <td>e</td>
-                    </tr>
-                    <tr>
-                      <td>a</td>
-                      <td>b</td>
-                      <td>c</td>
-                      <td>d</td>
-                      <td>e</td>
-                    </tr>
-                    <tr>
-                      <td>a</td>
-                      <td>b</td>
-                      <td>c</td>
-                      <td>d</td>
-                      <td>e</td>
-                    </tr>
-                    <tr>
-                      <td>a</td>
-                      <td>b</td>
-                      <td>c</td>
-                      <td>d</td>
-                      <td>e</td>
-                    </tr>
-                  </tbody>
-                </Table>
+                <DetailTable
+                  data={data}
+                  header={header}
+                />
               </ScrollArea>
-              <Pagination total={2} color="teal" size="sm" mt="md" mb="md" />
+              {/* <Pagination total={2} color="teal" size="sm" mt="md" mb="md" /> */}
             </Paper>
           </>
         )

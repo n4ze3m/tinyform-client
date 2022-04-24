@@ -1,7 +1,55 @@
-import React from 'react';
-import { createStyles, Header, Menu, Group, Center, Burger, Container, Button, Avatar, Transition, Paper } from '@mantine/core';
+import { createStyles, Text, Header, Menu, Group, Center, Burger, Container, Button, Avatar, Transition, Paper } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import { ChevronDown } from 'tabler-icons-react';
+import { Link } from 'react-router-dom';
+import { getAccessToken } from '../../services/token';
+
+
+const authLink = [
+    {
+        "link": "/docs",
+        "label": "Docs",
+        "type": "link",
+
+    },
+    {
+        "link": "#2",
+        "label": "User",
+        "type": "image",
+
+        "links": [
+            {
+                "link": "/logout",
+                "label": "Logout"
+            }
+        ]
+    }
+]
+
+const noAthLink = [
+    {
+        "link": "/docs",
+        "label": "Docs",
+        "type": "link",
+
+    }
+]
+
+const authMobileLink = [
+    {
+        "link": "/docs",
+        "label": "Docs",
+        "type": "link",
+
+    },
+    {
+        "link": "/logout",
+        "label": "Logout",
+        "type": "link"
+
+
+    }
+]
 
 const useStyles = createStyles((theme) => ({
     inner: {
@@ -21,11 +69,11 @@ const useStyles = createStyles((theme) => ({
         borderTopLeftRadius: 0,
         borderTopWidth: 0,
         overflow: 'hidden',
-    
+
         [theme.fn.largerThan('sm')]: {
-          display: 'none',
+            display: 'none',
         },
-      },
+    },
 
     links: {
         [theme.fn.smallerThan('sm')]: {
@@ -66,35 +114,43 @@ interface HeaderSearchProps {
 export function HeaderMenu() {
     const [opened, toggleOpened] = useBooleanToggle(false);
     const { classes } = useStyles();
+    const accesstoken = getAccessToken();
+    let links: any[] = []
+    let mobile: any[] = []
+    if (accesstoken) {
+        links = authLink
+        mobile = authMobileLink
+    } else {
+        links = noAthLink
+        mobile = noAthLink
+    }
 
-    const links = [
-        {
-            "link": "/docs",
-            "label": "Docs",
-            "type": "link",
+    const mobileItems = mobile.map((item: any) => {
+        return (
+            <div
+            className={classes.link}
+            
+            key={item.link}>
+                <Text<typeof Link> component={Link} to={item.link} >
+                    {
+                        item.label
+                    }
+                </Text>
+            </div>
+        )
+    }
+    )
 
-        },
-        {
-            "link": "#2",
-            "label": "User",
-            "type": "image",
-
-            "links": [
-                {
-                    "link": "/setting",
-                    "label": "Settings"
-                },
-                {
-                    "link": "/logout",
-                    "label": "Logout"
-                }
-            ]
-        }
-    ]
 
     const items = links.map((link) => {
-        const menuItems = link.links?.map((item) => (
-            <Menu.Item key={item.link}>{item.label}</Menu.Item>
+        const menuItems = link.links?.map((item: any) => (
+            <Menu.Item key={item.link}>
+                <Text<typeof Link> component={Link} to={item.link} >
+                    {
+                        item.label
+                    }
+                </Text>
+            </Menu.Item>
         ));
 
         if (menuItems) {
@@ -115,7 +171,7 @@ export function HeaderMenu() {
                             <Center>
                                 {
 
-                                    link.type === "image" && <Avatar radius="xl" size={20} className={classes.linkLabel} src="https://vercel.com/api/www/avatar/tvTvBUaOycYrEUTRPEBO3dFS?&s=120" />
+                                    link.type === "image" && <Avatar radius="xl" size={20} className={classes.linkLabel} />
                                 }
                                 {
                                     link.type === "button" && <Button color="teal">{link.label}</Button>
@@ -159,7 +215,11 @@ export function HeaderMenu() {
         <Header height={56} mb={10}>
             <Container>
                 <div className={classes.inner}>
-                    TinyForm
+                    <Text<typeof Link> component={Link} to={
+                        accesstoken ? "/dashboard" : "/"
+                    } weight={700}>
+                        TinyForm
+                    </Text>
                     <Group spacing={5} className={classes.links}>
                         {items}
                     </Group>
@@ -170,12 +230,12 @@ export function HeaderMenu() {
                         size="sm"
                     />
                     <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              {items}
-            </Paper>
-          )}
-        </Transition>
+                        {(styles) => (
+                            <Paper className={classes.dropdown} withBorder style={styles}>
+                                {mobileItems}
+                            </Paper>
+                        )}
+                    </Transition>
                 </div>
             </Container>
         </Header>

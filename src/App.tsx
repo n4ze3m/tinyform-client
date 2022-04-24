@@ -8,6 +8,8 @@ import DetailsBody from './components/Details/DetailsBody'
 import CreateBody from './components/Create/CreateBody'
 import Layout from './components/Common/Layout'
 import Protect from './components/Common/Protect'
+import UnProtect from './components/Common/UnProtect'
+import LogoutBody from './components/Logout/LogoutBody'
 
 function App() {
 
@@ -16,9 +18,25 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />} >
 
-        <Route path="/" element={<HomeBody />} />
-        <Route path="login" element={<LoginBody />} />
-        <Route path="register" element={<RegisterBody />} />
+        <Route path="/" element={
+          <UnProtect>
+            <HomeBody />
+          </UnProtect>
+        } />
+        <Route path="login" element={
+          <UnProtect>
+            <LoginBody />
+          </UnProtect>
+        } />
+        <Route path="register" element={
+          <UnProtect>
+            <RegisterBody />
+          </UnProtect>
+        } />
+
+        <Route path="logout" element={
+          <LogoutBody />
+        } />
 
         <Route path="dashboard" element={
           <Protect>
