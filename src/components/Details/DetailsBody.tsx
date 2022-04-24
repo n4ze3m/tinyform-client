@@ -57,16 +57,16 @@ export default function DetailsBody() {
 
             <Group position="apart">
 
-              <Text size="lg"  weight={700}>
+              <Text size="lg" weight={700}>
                 {` 📝 ${name}`}
               </Text>
               <Group>
-                <Button size="sm" leftIcon={<Code />} color="teal" onClick={() => setOpen((o) => !o)}>
-                  Snippet
-                </Button>
-                <ActionIcon color="red" size="md" >
-                <Trash />
-            </ActionIcon>
+                <ActionIcon size="sm" color="teal" onClick={() => setOpen((o) => !o)}>
+                  <Code />
+                </ActionIcon>
+                <ActionIcon color="red" size="sm" >
+                  <Trash />
+                </ActionIcon>
               </Group>
             </Group>
             <Collapse in={opened}>

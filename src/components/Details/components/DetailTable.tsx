@@ -1,5 +1,6 @@
-import { Table, Text, TextInput } from "@mantine/core";
+import { Table, Text, Badge } from "@mantine/core";
 import Empty from "../../Common/Empty";
+import moment from "moment"
 
 interface DProps {
     header: string[];
@@ -8,13 +9,13 @@ interface DProps {
 
 
 export default function DetailTable(props: DProps) {
-    if(props.data.length === 0) {
+    if (props.data.length === 0) {
         return <Empty
-        text="Oh! No submissions yet!"
+            text="Oh! No submissions yet!"
         />
     }
     return (
-        <Table verticalSpacing="xs">
+        <Table sx={{ minWidth: 800 }} verticalSpacing="xs">
             <thead>
                 <tr>
                     <th>#</th>
@@ -23,7 +24,7 @@ export default function DetailTable(props: DProps) {
                             <th key={i}>{h}</th>
                         ))
                     }
-                    <th>created at</th>
+                    <th>date</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +37,7 @@ export default function DetailTable(props: DProps) {
                                     <Td key={i} data={d[h]} />
                                 ))
                             }
-                            <Td data={d['created_at']} />
+                            <Td data={d['created_at']} isDate={true} />
                         </tr>
                     ))
                 }
@@ -46,7 +47,12 @@ export default function DetailTable(props: DProps) {
 }
 
 
-function Td(props: { data: any }) {
+
+
+
+
+
+function Td(props: { data: any, isDate?: boolean }) {
 
 
     const isUrl = (url: string) => {
@@ -54,18 +60,37 @@ function Td(props: { data: any }) {
         return regex.test(url);
     }
 
+
+    const fileName = (url: string) => {
+        try {
+            var fname = new URL(url).pathname.split('/').pop();
+            return "📁 "  +fname
+        } catch (e) {
+            console.log(e)
+            return "📁"
+        }
+    }
+
     if (isUrl(props.data)) {
         return (
             <td>
-                <Text<'a'> component="a" href={props.data} target="_blank" rel="noopener noreferrer" color="blue">
-                    <TextInput value={props.data} readOnly />
-                </Text>
+                <Badge <'a'> component="a" href={props.data} target="_blank" rel="noopener noreferrer" color="yellow" radius="sm">
+                    {fileName(props.data)}
+                </Badge >
             </td>
         )
     } else {
-        return <td>
-          {props.data}
-        </td>
+        if (props.isDate) {
+            return <td>
+                {
+                    moment(props.data).format("DD MMM YYYY hh:mm a")
+                }
+            </td>
+        } else {
+            return <td>
+                {props.data}
+            </td>
+        }
     }
 
 }

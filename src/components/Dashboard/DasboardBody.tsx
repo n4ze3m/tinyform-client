@@ -38,8 +38,9 @@ export default function DasboardBody() {
 
       <Button className={classes.createButton} color="teal"
         onClick={() => navigator("/dashboard/form/create")}
+        leftIcon={<Plus />}
       >
-        <Plus /> New form
+         New form
       </Button>
     </Group>
     <SimpleGrid spacing="xs" cols={3} style={{

@@ -10,7 +10,6 @@ import {
 } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 export default function RegisterBody() {
-
     let navigate = useNavigate()
     return <>
 
