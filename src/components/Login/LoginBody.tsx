@@ -1,7 +1,6 @@
 import {
     TextInput,
     PasswordInput,
-    Checkbox,
     Anchor,
     Paper,
     Title,
@@ -11,6 +10,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { login } from '../../services/auth';
 import { setTokens } from '../../services/token';
@@ -18,6 +18,7 @@ import { setTokens } from '../../services/token';
 
 export default function LoginBody() {
     let navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
     const form = useForm({
         initialValues: {
             email: '',
@@ -43,15 +44,18 @@ export default function LoginBody() {
 
     const onSubmit = async (values: any) => {
         try {
+            setIsLoading(true)
             const response = await login(values.email, values.password);
             const token = response.data.tokens
             setTokens(token.access_token, token.refresh_token)
+            setIsLoading(false)
             navigate('/dashboard')
             showNotification({
-                title:'Welcome',
+                title: 'Welcome',
                 message: 'Login successful',
             })
         } catch (e: any) {
+            setIsLoading(false)
             const message = e?.response?.data?.error || 'Something went wrong';
             console.log(e)
             showNotification({
@@ -86,10 +90,13 @@ export default function LoginBody() {
                 <form onSubmit={form.onSubmit(async (values) => {
                     await onSubmit(values)
                     console.log("done")
-                })}>
+                })}
+                >
                     <TextInput label="Email" placeholder="you@email.com" required {...form.getInputProps('email')} />
                     <PasswordInput label="Password" placeholder="Your password" required mt="md" {...form.getInputProps('password')} />
-                    <Button color="teal" fullWidth mt="xl" type="submit">
+                    <Button color="teal" fullWidth mt="xl" type="submit"
+                        loading={isLoading}
+                    >
                         Sign in
                     </Button>
                 </form>
