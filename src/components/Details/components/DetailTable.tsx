@@ -1,4 +1,4 @@
-import { Table, Text, Badge } from "@mantine/core";
+import { Table, Text, Badge, ColorSwatch } from "@mantine/core";
 import Empty from "../../Common/Empty";
 import moment from "moment"
 
@@ -37,7 +37,11 @@ export default function DetailTable(props: DProps) {
                                     <Td key={i} data={d[h]} />
                                 ))
                             }
-                            <Td data={d['created_at']} isDate={true} />
+                            <td>
+                                {
+                                    moment(d['created_at']).format("DD MMM YYYY hh:mm a")
+                                }
+                            </td>
                         </tr>
                     ))
                 }
@@ -61,36 +65,59 @@ function Td(props: { data: any, isDate?: boolean }) {
     }
 
 
+    const isEmail = (email: string) => {
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return regex.test(email);
+    }
+
+
     const fileName = (url: string) => {
         try {
             var fname = new URL(url).pathname.split('/').pop();
-            return "📁 "  +fname
+            return "📁 " + fname
         } catch (e) {
             console.log(e)
             return "📁"
         }
     }
 
+    const isColor = (color: string) => {
+        const regex = /^#[0-9A-F]{6}$/i;
+        return regex.test(color);
+    }
+
+
+
     if (isUrl(props.data)) {
         return (
             <td>
-                <Badge <'a'> component="a" href={props.data} target="_blank" rel="noopener noreferrer" color="yellow" radius="sm">
+                <Badge<'a'> component="a" href={props.data} target="_blank" rel="noopener noreferrer" color="yellow" radius="sm" >
                     {fileName(props.data)}
                 </Badge >
             </td>
         )
-    } else {
-        if (props.isDate) {
-            return <td>
-                {
-                    moment(props.data).format("DD MMM YYYY hh:mm a")
-                }
+    }  else if (isEmail(props.data)) {
+        return (
+            <td>
+                <Text component="a" href={`mailto:${props.data}`} color="blue" >
+                    {props.data}
+                </Text>
             </td>
-        } else {
-            return <td>
-                {props.data}
+        )
+    } else if (isColor(props.data)) {
+        return (
+            <td>
+                <ColorSwatch
+                color={props.data}
+                />
             </td>
-        }
+        )
+    }
+    
+    else {
+        return <td>
+            {props.data}
+        </td>
     }
 
 }
