@@ -1,6 +1,7 @@
-import { Table, Text, Badge, ColorSwatch } from "@mantine/core";
+import { Table, Text, Badge, ColorSwatch, ActionIcon } from "@mantine/core";
 import Empty from "../../Common/Empty";
 import moment from "moment"
+import { Trash } from "tabler-icons-react";
 
 interface DProps {
     header: string[];
@@ -25,6 +26,7 @@ export default function DetailTable(props: DProps) {
                         ))
                     }
                     <th>date</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +43,11 @@ export default function DetailTable(props: DProps) {
                                 {
                                     moment(d['created_at']).format("DD MMM YYYY hh:mm a")
                                 }
+                            </td>
+                            <td>
+                            <ActionIcon color="teal" size="xs">
+                <Trash />
+              </ActionIcon>
                             </td>
                         </tr>
                     ))
