@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  Button,
   Text,
   Collapse,
   Group,
@@ -14,6 +13,8 @@ import DetailsLoading from "./components/DetailsLoading";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserFormSnippet, getUsersSubmissions } from "../../services/get";
 import DetailTable from "./components/DetailTable";
+import { showNotification } from "@mantine/notifications";
+import { deleteUserForm, deleteUserSubmission } from "../../services/delete";
 
 export default function DetailsBody() {
   const [opened, setOpen] = useState(false);
@@ -49,6 +50,44 @@ export default function DetailsBody() {
     fetchData();
   }, []);
 
+  const deleteSubs = async (id: string) => {
+    try {
+      await deleteUserSubmission(params.id!, id);
+      showNotification({
+        title: "Success",
+        message: "Submission deleted",
+      });
+      await fetchData();
+    } catch (e: any) {
+      const message = e?.response?.data?.error || "Something went wrong";
+      showNotification({
+        title: "Oh no!",
+        message,
+        color: "red",
+        autoClose: 5000,
+      });
+    }
+  };
+
+  const formDelete = async () => {
+    try {
+      await deleteUserForm(params.id!);
+      showNotification({
+        title: "Form deleted",
+        message: "Form deleted successfully",
+      });
+      navigator("/dashboard/");
+    } catch (e: any) {
+      const message = e?.response?.data?.error || "Something went wrong";
+      showNotification({
+        title: "Oh no!",
+        message,
+        color: "red",
+        autoClose: 5000,
+      });
+    }
+  };
+
   return (
     <>
       {loading && <DetailsLoading />}
@@ -66,7 +105,7 @@ export default function DetailsBody() {
               >
                 <Code />
               </ActionIcon>
-              <ActionIcon color="red" size="sm">
+              <ActionIcon onClick={formDelete} color="red" size="sm">
                 <Trash />
               </ActionIcon>
             </Group>
@@ -78,7 +117,7 @@ export default function DetailsBody() {
           </Collapse>
           <Paper withBorder shadow="md" p={10} mt={30} radius="sm">
             <ScrollArea>
-              <DetailTable data={data} header={header} />
+              <DetailTable onDelete={deleteSubs} data={data} header={header} />
             </ScrollArea>
             {/* <Pagination total={2} color="teal" size="sm" mt="md" mb="md" /> */}
           </Paper>

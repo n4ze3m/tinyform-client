@@ -55,6 +55,10 @@ export default function CreateBody() {
           if (value.toLowerCase() === "created_at") {
             return 'Field name cannot be "created_at"';
           }
+
+          if (value.toLowerCase() === "_id") {
+            return 'Field name cannot be "_id"';
+          }
         },
         type: (value) => {
           if (value.length === 0) {
@@ -115,7 +119,6 @@ export default function CreateBody() {
           { value: "datetime-local", label: "datetime-local" },
           { value: "month", label: "month" },
           { value: "number", label: "number" },
-          { value: "password", label: "password" },
           { value: "radio", label: "radio" },
           { value: "range", label: "range" },
           { value: "tel", label: "tel" },
