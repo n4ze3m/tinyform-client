@@ -12,6 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       withNormalizeCSS
       theme={{
         colorScheme: 'dark',
+        fontFamily: 'Montserrat',
       }}
     >
       <NotificationsProvider>
