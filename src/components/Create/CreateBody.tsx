@@ -35,7 +35,7 @@ export default function CreateBody() {
       },
       url: (value) => {
         if (value.trim().length === 0) {
-          return "Url is required";
+          return
         } else if (!/^(http|https):\/\/[^ "]+$/.test(value)) {
           return "Url is invalid";
         }

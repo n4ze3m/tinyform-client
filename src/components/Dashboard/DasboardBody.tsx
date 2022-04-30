@@ -45,13 +45,14 @@ export default function DasboardBody() {
       </Group>
       <SimpleGrid
         spacing="xs"
+        mb="md"
         cols={3}
         style={{
           marginTop: "1rem",
         }}
         breakpoints={[
-          { maxWidth: 980, cols: 1, spacing: "md" },
-          { maxWidth: 755, cols: 1, spacing: "sm" },
+          { maxWidth: 980, cols: 3, spacing: "md" },
+          { maxWidth: 755, cols: 2, spacing: "sm" },
           { maxWidth: 600, cols: 1, spacing: "sm" },
         ]}
       >
