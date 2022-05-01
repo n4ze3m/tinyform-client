@@ -6,6 +6,7 @@ import {
   ActionIcon,
   Paper,
   ScrollArea,
+  Tabs,
 } from "@mantine/core";
 import { Code, Trash } from "tabler-icons-react";
 import { Prism } from "@mantine/prism";
@@ -15,6 +16,9 @@ import { getUserFormSnippet, getUsersSubmissions } from "../../services/get";
 import DetailTable from "./components/DetailTable";
 import { showNotification } from "@mantine/notifications";
 import { deleteUserForm, deleteUserSubmission } from "../../services/delete";
+import { Photo, CircleOff,ClipboardList, Settings } from "tabler-icons-react";
+const { Tab } = Tabs;
+
 
 export default function DetailsBody() {
   const [opened, setOpen] = useState(false);
@@ -115,12 +119,44 @@ export default function DetailsBody() {
               {html}
             </Prism>
           </Collapse>
-          <Paper withBorder shadow="md" p={10} mt={30} radius="sm">
-            <ScrollArea>
-              <DetailTable onDelete={deleteSubs} data={data} header={header} />
-            </ScrollArea>
-            {/* <Pagination total={2} color="teal" size="sm" mt="md" mb="md" /> */}
-          </Paper>
+          <ScrollArea>
+            <Tabs variant="outline" grow sx={{ minWidth: 800 }}>
+              <Tab label="Submissions" mt={30} icon={<ClipboardList size={14} />}>
+                <Paper withBorder shadow="md" p={10} mt={20} radius="sm">
+                  {/* <ScrollArea> */}
+                  <DetailTable
+                    onDelete={deleteSubs}
+                    data={data}
+                    header={header}
+                  />
+                  {/* </ScrollArea> */}
+                </Paper>
+              </Tab>
+              <Tab label="Spam" mt={30} icon={<CircleOff size={14} />}>
+              <Paper withBorder shadow="md" p={10} mt={20} radius="sm">
+                  {/* <ScrollArea> */}
+                  <DetailTable
+                    onDelete={deleteSubs}
+                    data={data}
+                    header={header}
+                  />
+                  {/* </ScrollArea> */}
+                </Paper>
+              </Tab>
+              <Tab label="Trash" mt={30} icon={<Trash size={14} />}>
+              <Paper withBorder shadow="md" p={10} mt={20} radius="sm">
+                  {/* <ScrollArea> */}
+                  <DetailTable
+                    onDelete={deleteSubs}
+                    data={data}
+                    header={header}
+                  />
+                  {/* </ScrollArea> */}
+                </Paper>
+              </Tab>
+              <Tab label="Settings" mt={30} icon={<Settings size={14} />}></Tab>
+            </Tabs>
+          </ScrollArea>
         </>
       )}
     </>

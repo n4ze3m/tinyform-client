@@ -16,6 +16,7 @@ import { useBooleanToggle } from "@mantine/hooks";
 import { ChevronDown } from "tabler-icons-react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAccessToken } from "../../services/token";
+import { useAuth } from "../../hooks/auth";
 
 const authLink = [
   {
@@ -143,6 +144,7 @@ export function HeaderMenu() {
     links = noAthLink;
     mobile = noAthLink;
   }
+
 
   const mobileItems = mobile.map((item: any) => {
     return (
